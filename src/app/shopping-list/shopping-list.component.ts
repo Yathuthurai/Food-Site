@@ -8,23 +8,19 @@ import { Ingredient } from '../shared/ingredient.model';
 })
 export class ShoppingListComponent implements OnInit {
   ingredients: Ingredient[] = [
-    new Ingredient('warm water', '355 ml'),
-    new Ingredient('active dry yeast', '2 1/4 teaspoons'),
-    new Ingredient('olive oil', '50 ml'),
-    new Ingredient('salt', '2 teaspoons'),
-    new Ingredient('sugar', '1 teaspoons'),
-    new Ingredient('Tomato sauce ', '1 package'),
-    new Ingredient('Firm mozzarella cheese ', '1 package'),
-    new Ingredient('Fontina cheese ', '1 package'),
-    new Ingredient('Feta cheese ', '1 package'),
-    new Ingredient('Mushrooms ', '200 g'),
-    new Ingredient('Bell peppers ', '200 g'),
-    new Ingredient('Pepperoni ', '150 g'),
+    new Ingredient('warm water (ml)', 355),
+    new Ingredient('active dry yeast (teaspoons)', 2.25),
+    new Ingredient('olive oil (ml)', 50),
   ];
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  // tslint:disable-next-line:typedef
+  onIngredientAdded(ingredient: Ingredient) {
+     this.ingredients.push(ingredient);
   }
 
 }
