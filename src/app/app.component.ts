@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'FoodApp';
+  loadedFeature = 'recipe';
+
+  // tslint:disable-next-line:typedef
+  onNavigate(feature: string) {
+    this.loadedFeature = feature;
+  }
 }
