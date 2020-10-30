@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Recipe } from './recipe.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
+  recipeSelected = new EventEmitter<Recipe>();
+
   private recipes: Recipe[] = [
     new Recipe('Pasta', 'Italian testing pasta', 'https://www.eatwell101.com/wp-content/uploads/2017/11/sausage-and-pasta-recipes-for-dinner.jpg'),
     new Recipe('Pizza', 'Italian cheese pizza', 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190226-buffalo-chicken-pizza-370-1552084943.jpg'),
