@@ -1,10 +1,9 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Ingredient } from '../shared/ingredient.model';
+import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { Recipe } from './recipe.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class RecipeService {
   recipeSelected = new EventEmitter<Recipe>();
 
@@ -54,10 +53,15 @@ export class RecipeService {
       ])
   ];
 
-  constructor() { }
+  constructor(private slService: ShoppingListService) { }
 
   // tslint:disable-next-line:typedef
   getRecipes() {
     return this.recipes.slice();
+  }
+
+  // tslint:disable-next-line:typedef
+  addIngredientsToShoppingList(ingredients: Ingredient[]) {
+    this.slService.addIngredients(ingredients);
   }
 }
