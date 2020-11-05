@@ -48,6 +48,11 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.editMode = false;
   }
   // tslint:disable-next-line:typedef
+  onDelete() {
+    this.slService.deleteIngredient(this.editedItemIndex);
+    this.onClear();
+  }
+  // tslint:disable-next-line:typedef
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
