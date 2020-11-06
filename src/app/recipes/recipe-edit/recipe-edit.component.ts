@@ -33,6 +33,16 @@ export class RecipeEditComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef
+  onAddIngredient(): void {
+    (this.recipeForm.get('ingredients') as FormArray).push(
+      new FormGroup({
+        name: new FormControl(),
+        amount: new FormControl()
+      })
+    );
+  }
+
+  // tslint:disable-next-line:typedef
   private initForm() {
     let recipeName = '';
     let recipeImagePath = '';
