@@ -62,6 +62,11 @@ export class RecipeEditComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef
+  onDeleteIngredients(index: number) {
+    (this.recipeForm.get('ingredients') as FormArray).removeAt(index);
+  }
+
+  // tslint:disable-next-line:typedef
   onCancel() {
     this.router.navigate(['../'], {relativeTo: this.route});
   }

@@ -25,6 +25,7 @@ export class RecipeDetailComponent implements OnInit {
   // tslint:disable-next-line:typedef
   onAddToShoppingList() {
     this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
+    this.router.navigate(['/shopping-list']);
   }
 
   // tslint:disable-next-line:typedef
