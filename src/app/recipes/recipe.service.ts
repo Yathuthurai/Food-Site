@@ -12,7 +12,7 @@ export class RecipeService {
   private recipes: Recipe[] = [
     new Recipe(
       'Tasty Schnitzel',
-      'A super-tasty Schnitzel - just awesome!😉',
+      'A super-tasty Schnitzel 😉',
       'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Wiener-Schnitzel02.jpg/1200px-Wiener-Schnitzel02.jpg',
       [
         new Ingredient('Meat(g)', 350),
@@ -56,6 +56,13 @@ export class RecipeService {
   ];
 
   constructor(private slService: ShoppingListService) { }
+
+
+  // tslint:disable-next-line:typedef
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
+  }
 
   // tslint:disable-next-line:typedef
   getRecipes() {

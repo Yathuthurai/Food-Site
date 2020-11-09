@@ -15,4 +15,9 @@ export class HeaderComponent {
     this.dataStorageService.storeRecipes();
   }
 
+  // tslint:disable-next-line:typedef
+  onFetchData() {
+    this.dataStorageService.fetchRecipes();
+  }
+
 }
