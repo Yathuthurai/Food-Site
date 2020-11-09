@@ -17,7 +17,7 @@ export class HeaderComponent {
 
   // tslint:disable-next-line:typedef
   onFetchData() {
-    this.dataStorageService.fetchRecipes();
+    this.dataStorageService.fetchRecipes().subscribe();
   }
 
 }
