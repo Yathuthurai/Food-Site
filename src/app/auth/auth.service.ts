@@ -4,13 +4,14 @@ import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 
-interface AuthResponseData {
+export interface AuthResponseData {
   kind: string;
   idToken: string;
   email: string;
   refreshToken: string;
   expiresIn: string;
   localId: string;
+  registered?: string;
 }
 
 @Injectable({
@@ -44,5 +45,17 @@ export class AuthService {
         }
         return throwError(errorMessage);
       }));
+  }
+
+  // tslint:disable-next-line:typedef
+  login(email: string, password: string) {
+    return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD_RbkFZ2LB5mzGu1OUDZwLKQtcB0sF_vM',
+    {
+      // tslint:disable-next-line:object-literal-shorthand
+      email: email,
+      // tslint:disable-next-line:object-literal-shorthand
+      password: password,
+      returnSecureToken: true
+    });
   }
 }
