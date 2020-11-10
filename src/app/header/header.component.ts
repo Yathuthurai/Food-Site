@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataStorageService } from '../shared/data-storage.service';
 
 @Component({
@@ -6,9 +6,13 @@ import { DataStorageService } from '../shared/data-storage.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   constructor(private dataStorageService: DataStorageService) { }
+  // tslint:disable-next-line:typedef
+  ngOnInit() {
+    this.onFetchData();
+  }
 
   // tslint:disable-next-line:typedef
   onSaveData() {
