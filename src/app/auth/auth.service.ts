@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { BehaviorSubject, Subject, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { User } from './user.model';
 
 
 export interface AuthResponseData {
@@ -18,6 +19,7 @@ export interface AuthResponseData {
   providedIn: 'root'
 })
 export class AuthService {
+  user = new BehaviorSubject<User>(null);
 
   constructor(private http: HttpClient) { }
 
@@ -33,7 +35,9 @@ export class AuthService {
         returnSecureToken: true
       }
       )
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError), tap(resData => {
+          this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
+      }));
   }
 
   // tslint:disable-next-line:typedef
@@ -45,7 +49,18 @@ export class AuthService {
       // tslint:disable-next-line:object-literal-shorthand
       password: password,
       returnSecureToken: true
-    }).pipe(catchError(this.handleError));
+    }).pipe(catchError(this.handleError), tap(resData => {
+      this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
+  }));
+  }
+
+  // tslint:disable-next-line:typedef
+  private handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {
+    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+        // tslint:disable-next-line:align
+        const user = new User(email, userId, token, expirationDate);
+          // tslint:disable-next-line:align
+          this.user.next(user);
   }
 
   // tslint:disable-next-line:typedef
