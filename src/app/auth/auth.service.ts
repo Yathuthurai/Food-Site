@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
@@ -21,7 +22,7 @@ export interface AuthResponseData {
 export class AuthService {
   user = new BehaviorSubject<User>(null);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   // tslint:disable-next-line:typedef
   signUp(email: string, password: string) {
@@ -61,6 +62,12 @@ export class AuthService {
         const user = new User(email, userId, token, expirationDate);
           // tslint:disable-next-line:align
           this.user.next(user);
+  }
+
+  // tslint:disable-next-line:typedef
+  logout() {
+     this.user.next(null);
+     this.router.navigate(['/auth']);
   }
 
   // tslint:disable-next-line:typedef
