@@ -22,25 +22,20 @@ export class DataStorageService {
 
   // tslint:disable-next-line:typedef
   fetchRecipes() {
-    return this.authService.user.pipe(
-      take(1),
-      exhaustMap(user => {
-        return this.http
-      .get<Recipe[]>('https://foodsiteangular.firebaseio.com/recipes.json', {
-        params: new HttpParams().set('auth', user.token)
-      });
-      }),
-      map((recipes) => {
-        return recipes.map((recipe) => {
-          return {
-            ...recipe,
-            ingredients: recipe.ingredients ? recipe.ingredients : [],
-          };
-        });
-      }),
-      tap((data) => {
-        this.recipeService.setRecipes(data);
-      })
-    );
+    return this.http
+      .get<Recipe[]>('https://foodsiteangular.firebaseio.com/recipes.json')
+      .pipe(
+        map(recipes => {
+          return recipes.map(recipe => {
+            return {
+              ...recipe,
+              ingredients: recipe.ingredients ? recipe.ingredients : [],
+            };
+          });
+        }),
+        tap(data => {
+          this.recipeService.setRecipes(data);
+        })
+      );
   }
 }
