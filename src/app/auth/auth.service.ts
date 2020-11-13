@@ -21,6 +21,7 @@ export interface AuthResponseData {
 })
 export class AuthService {
   user = new BehaviorSubject<User>(null);
+  private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -59,11 +60,12 @@ export class AuthService {
   private handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
         // tslint:disable-next-line:align
-        const user = new User(email, userId, token, expirationDate);
+    const user = new User(email, userId, token, expirationDate);
           // tslint:disable-next-line:align
-          this.user.next(user);
+    this.user.next(user);
+    this.autoLogout(expiresIn * 1000);
           // tslint:disable-next-line:align
-          localStorage.setItem('userData', JSON.stringify(user));
+    localStorage.setItem('userData', JSON.stringify(user));
   }
 
   // tslint:disable-next-line:typedef
@@ -87,6 +89,8 @@ export class AuthService {
 
     if (loadedUser.token) {
       this.user.next(loadedUser);
+      const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
+      this.autoLogout(expirationDuration);
     }
   }
 
@@ -94,7 +98,20 @@ export class AuthService {
   logout() {
      this.user.next(null);
      this.router.navigate(['/auth']);
+     localStorage.removeItem('userData');
+     if (this.tokenExpirationTimer) {
+       clearTimeout(this.tokenExpirationTimer);
+     }
+     this.tokenExpirationTimer = null;
   }
+
+  // tslint:disable-next-line:typedef
+  autoLogout(expirationTime: number) {
+    console.log(expirationTime);
+    this.tokenExpirationTimer = setTimeout(() => {
+      this.logout();
+    }, expirationTime);
+ }
 
   // tslint:disable-next-line:typedef
   private handleError(errorRes: HttpErrorResponse) {
