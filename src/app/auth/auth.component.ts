@@ -58,4 +58,9 @@ export class AuthComponent implements OnInit {
     form.reset();
   }
 
+  // tslint:disable-next-line:typedef
+  onHandleError(){
+    this.error = null;
+  }
+
 }
