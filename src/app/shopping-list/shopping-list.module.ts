@@ -13,7 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ShoppingEditComponent,
   ],
   imports: [
-    RouterModule,
+    RouterModule.forChild([
+      { path: '', component: ShoppingListComponent },
+    ]),
     CommonModule,
     ReactiveFormsModule,
     FormsModule
