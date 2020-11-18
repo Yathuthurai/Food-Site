@@ -5,6 +5,8 @@ import { BehaviorSubject, Subject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
 
+import { environment } from '../../environments/environment';
+
 
 export interface AuthResponseData {
   kind: string;
@@ -28,7 +30,7 @@ export class AuthService {
   // tslint:disable-next-line:typedef
   signUp(email: string, password: string) {
     return this.http.post<AuthResponseData>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD_RbkFZ2LB5mzGu1OUDZwLKQtcB0sF_vM',
+      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.firebaseAPIKey,
       {
         // tslint:disable-next-line:object-literal-shorthand
         email: email,
@@ -44,7 +46,8 @@ export class AuthService {
 
   // tslint:disable-next-line:typedef
   login(email: string, password: string) {
-    return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD_RbkFZ2LB5mzGu1OUDZwLKQtcB0sF_vM',
+    // tslint:disable-next-line:max-line-length
+    return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + environment.firebaseAPIKey,
     {
       // tslint:disable-next-line:object-literal-shorthand
       email: email,
